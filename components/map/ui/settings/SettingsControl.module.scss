@@ -1,0 +1,23 @@
+.control {
+    min-width: 44px;
+    min-height: 44px;
+    background-color: var(--palette-bg1);
+    border: var(--palette-bg2) 2px solid;
+    color: var(--palette-text);
+    border-radius: 5px;
+}
+
+.icon {
+    background-image: url('/leaflet/leaflet_settings.png');
+    background-clip: padding-box;
+    filter: invert(1);
+    width: 44px;
+    height: 44px;
+    background-size: 26px 26px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.settings {
+    padding: 0 1em;
+}

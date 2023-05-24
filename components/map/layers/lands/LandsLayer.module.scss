@@ -1,0 +1,9 @@
+.tooltip:global(.leaflet-tooltip) {
+    background-color: var(--palette-bg1);
+    color: var(--palette-text);
+    border: none;
+
+    &:before {
+        all: unset;
+    }
+}

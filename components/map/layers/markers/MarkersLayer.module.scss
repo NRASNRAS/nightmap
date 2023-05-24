@@ -1,0 +1,15 @@
+.tooltip:global(.leaflet-tooltip) {
+    background-color: var(--palette-bg1);
+    color: var(--palette-text);
+    border: none;
+    padding: 0 4px;
+
+    &:before {
+        all: unset;
+    }
+}
+
+.pixelImg {
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
