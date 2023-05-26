@@ -3,7 +3,7 @@ import Control from "../Control";
 import { useMap } from "react-leaflet";
 import styles from './SettingsControl.module.scss';
 
-export default function SettingsControl({position, settings, setSettings}) {
+export default function SettingsControl({position, order, settings, setSettings}) {
     const map = useMap();
     const [showSettings, setShowSettings] = useState(true);
 
@@ -59,7 +59,7 @@ export default function SettingsControl({position, settings, setSettings}) {
     ), [showSettings, settings]);
     
     return (
-        <Control position={position}>
+        <Control position={position} order={order}>
             <div className="leaflet-control">
                 {control}
             </div>
