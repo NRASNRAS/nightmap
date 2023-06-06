@@ -2,6 +2,8 @@
     background-color: black;
     width: 100vw;
     height: 100vh;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
 
     :global(.leaflet-control-layers) {
         background-color: var(--palette-bg1);
@@ -11,6 +13,13 @@
         :global(.leaflet-control-layers-toggle) {
             background-image: url('/leaflet/leaflet_layers.png');
             filter: invert(1);
+        }
+    }
+
+    :global(.leaflet-control-container) {
+        :global(.leaflet-bottom.leaflet-right) {
+            display: flex;
+            align-items: end;
         }
     }
 }

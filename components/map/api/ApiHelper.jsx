@@ -40,13 +40,30 @@ export function fixCoordsReverse(x, z, projection) {
     }
 }
 
+export function latLngToCoords(lat, lng, projection) {
+    let mtw;
+    if (projection === "surface") {
+        mtw = [0.17677669529663687,-0.2041241452319315,0.408248290463863,0.0,-1.3877787807814457E-17,1.0000000000000002,-0.1767766952966369,-0.20412414523193148,0.40824829046386296];
+    } else {
+        mtw = [0.25,-1.5308084989341915E-17,0.0,0.0,0.0,1.0,-1.5308084989341915E-17,-0.25,0.0];
+    }
+
+    lat = 128 + lat * (1 << 5);
+    lng = lng * (1 << 5);
+
+    let x = mtw[0] * lng + mtw[1] * lat + mtw[2] * 64;
+    let z = mtw[6] * lng + mtw[7] * lat + mtw[8] * 64;
+
+    return [Math.round(x), Math.round(z)];
+}
+
 export function extractName(raw) {
     const indexStart = raw.indexOf('<b>') + 3;
     const indexEnd = raw.indexOf('/b>') - 1;
   
     let text = raw.substring(indexStart, indexEnd);
   
-    text = text.replace(/(?<!^)(?=[A-Z])/g, ' ');
+    text = text.replace(/(?=[A-Z])/g, ' ');
     
     text = text.replace('_', ' ');
   

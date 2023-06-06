@@ -10,6 +10,7 @@ import MarkersLayer from "./layers/markers/MarkersLayer";
 import PlayersLayer from "./layers/players/PlayersLayer";
 
 import SettingsControl from "./ui/settings/SettingsControl";
+import CoordinatesControl from "./ui/coordinates/CoordinatesControl";
 
 import 'leaflet/dist/leaflet.css';
 import styles from './NightMap.module.scss';
@@ -38,7 +39,7 @@ export default function NightMap() {
                 crs={L.CRS.Simple}
                 zoomControl={false}
                 preferCanvas={true}
-                attributionControl={true}
+                attributionControl={false}
                 worldCopyJump={false}
                 maxZoom={7}
                 scrollWheelZoom={false}
@@ -47,8 +48,7 @@ export default function NightMap() {
             >
                 <TilesLayer settings={settings}/>
 
-                <SettingsControl settings={settings} setSettings={setSettings}/>
-                <LayersControl>
+                <LayersControl position="bottomright">
                     <LayersControl.Overlay checked name="Claims">
                         <LandsLayer settings={settings}/>
                     </LayersControl.Overlay>
@@ -59,6 +59,8 @@ export default function NightMap() {
                         <PlayersLayer settings={settings}/>
                     </LayersControl.Overlay>
                 </LayersControl>
+                <CoordinatesControl settings={settings} order={0} setSettings={setSettings}/>
+                <SettingsControl settings={settings} order={1} setSettings={setSettings}/>
             </MapContainer>
         </div>
     )

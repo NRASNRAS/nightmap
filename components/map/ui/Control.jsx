@@ -7,9 +7,9 @@ const POSITION_CLASSES = {
     topright: 'leaflet-top leaflet-right',
 }
 
-export default function Control({position, children}) {
+export default function Control({position, order, children}) {
     const [container, setContainer] = useState(null);
-    const pos = (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright;
+    const pos = (position && POSITION_CLASSES[position]) || POSITION_CLASSES.bottomright;
     const containerRef = createRef();
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function Control({position, children}) {
 
     useEffect(() => {
         if (container !== null) {
-            container.append(containerRef.current);
+            container.insertBefore(containerRef.current, container.children[order]);
         }
     }, [container, containerRef])
 
