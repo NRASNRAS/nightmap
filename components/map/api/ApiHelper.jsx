@@ -63,7 +63,7 @@ export function extractName(raw) {
   
     let text = raw.substring(indexStart, indexEnd);
   
-    text = text.replace(/(?<!^)(?=[A-Z])/g, ' ');
+    text = text.replace(/(?=[A-Z])/g, ' ');
     
     text = text.replace('_', ' ');
   
