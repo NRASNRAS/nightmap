@@ -12,8 +12,8 @@ export default async function getPlayers(projection) {
     }
 
     for (let player of data['players']) {
-        // remove vanished nimaari
-        if (player.account === "Nimaari" && player.x === 0.0 && player.z === 0.0 && player.y === 64.0) {
+        // remove shifted/invisible players
+        if (player.world !== "earth") {
             continue;
         }
 
