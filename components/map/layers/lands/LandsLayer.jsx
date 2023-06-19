@@ -55,6 +55,7 @@ export default function LandsLayer({settings, setSidebarSettings}) {
                 layer.on('click', (e) => {
                     setSidebarSettings({
                         "shortDescription": e.target.feature.properties.desc,
+                        "dataUrl": "/land/" + e.target.feature.properties.id + ".json",
                         "displayed": true
                     })
 
