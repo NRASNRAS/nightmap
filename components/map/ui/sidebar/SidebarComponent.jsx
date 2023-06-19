@@ -29,6 +29,10 @@ export default function SidebarComponent({sidebarSettings, setSidebarSettings}) 
                     <p>
                         {data.description}
                     </p>
+
+                    {data.discord && (
+                        <a href={data.discord} target="_blank" rel="noopener noreferrer">Join the Discord</a>
+                    )}
                 </div>
             )}
 
