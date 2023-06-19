@@ -31,7 +31,8 @@ export default async function getLands(projection) {
             },
             "properties": {
                 "title": fixName(name),
-                "color": area['fillcolor']
+                "color": area['fillcolor'],
+                "desc": area['desc']
             }
         })
     }

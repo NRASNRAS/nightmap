@@ -14,9 +14,17 @@ import CoordinatesControl from "./ui/coordinates/CoordinatesControl";
 
 import 'leaflet/dist/leaflet.css';
 import styles from './NightMap.module.scss';
+import SidebarComponent from "./ui/sidebar/SidebarComponent";
 
 export default function NightMap() {
-    let [inBrowser, setInBrowser] = useState(false);
+    const [inBrowser, setInBrowser] = useState(false);
+
+    const [sidebarSettings, setSidebarSettings] = useState({
+        displayed: false,
+        shortDescription: "",
+        dataUrl: ""
+    });
+
     let [settings, setSettings] = useState({
         projection: 'flat',
         zoomSensitivity: localStorage.getItem("zoomSensitivity") || 1.75
@@ -50,7 +58,7 @@ export default function NightMap() {
 
                 <LayersControl position="bottomright">
                     <LayersControl.Overlay checked name="Claims">
-                        <LandsLayer settings={settings}/>
+                        <LandsLayer settings={settings} setSidebarSettings={setSidebarSettings}/>
                     </LayersControl.Overlay>
                     <LayersControl.Overlay checked name="Markers">
                         <MarkersLayer settings={settings}/>
@@ -61,6 +69,8 @@ export default function NightMap() {
                 </LayersControl>
                 <CoordinatesControl settings={settings} order={0} setSettings={setSettings}/>
                 <SettingsControl settings={settings} order={1} setSettings={setSettings}/>
+
+                <SidebarComponent sidebarSettings={sidebarSettings} setSidebarSettings={setSidebarSettings}/>
             </MapContainer>
         </div>
     )
