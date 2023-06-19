@@ -25,8 +25,10 @@ export default function SidebarComponent({sidebarSettings, setSidebarSettings}) 
 
             {data && (
                 <div className={styles.description}>
-                    {data.description}
                     <img src={baseDataUrl + data.image} alt=""/>
+                    <p>
+                        {data.description}
+                    </p>
                 </div>
             )}
 
