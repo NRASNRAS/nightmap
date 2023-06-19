@@ -7,9 +7,12 @@
     &:before {
         all: unset;
     }
+
+    z-index: 1 !important;
 }
 
 .pixelImg {
     image-rendering: crisp-edges;
     image-rendering: pixelated;
+    z-index: 1 !important;
 }
