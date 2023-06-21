@@ -16,31 +16,34 @@ export default function SidebarComponent({sidebarSettings, setSidebarSettings}) 
             }
         }
 
-        fetchData();
+        if (sidebarSettings.dataUrl) {
+            fetchData();
+        }
     }, [sidebarSettings])
 
     return (
-        <div className={`${styles.sidebar} ${sidebarSettings.displayed ? styles.shown : ""}`}>
-            <p className={styles.header} dangerouslySetInnerHTML={{__html: sidebarSettings.shortDescription}}/>
+        <div className={sidebarSettings.displayed ? styles.shown : ""}>
+            <div className={styles.sidebar}>
+                <p className={styles.header} dangerouslySetInnerHTML={{__html: sidebarSettings.shortDescription}}/>
 
-            {data && (
-                <div className={styles.description}>
-                    <img src={baseDataUrl + data.image} alt=""/>
-                    <p>
-                        {data.description}
-                    </p>
+                {data && (
+                    <div className={styles.description}>
+                        <img src={baseDataUrl + data.image} alt=""/>
+                        <p>
+                            {data.description}
+                        </p>
 
-                    {data.discord && (
-                        <a href={data.discord} target="_blank" rel="noopener noreferrer">Join the Discord</a>
-                    )}
-                </div>
-            )}
-
+                        {data.discord && (
+                            <a href={data.discord} target="_blank" rel="noopener noreferrer">Join the Discord</a>
+                        )}
+                    </div>
+                )}
+            </div>
             <button onClick={() => {
                 setSidebarSettings({
                     displayed: false,
                     shortDescription: "",
-                    dataUrl: ""
+                    dataUrl: undefined
                 });
                 setData(null);
             }} className={styles.button}>×</button>

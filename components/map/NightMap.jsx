@@ -69,9 +69,9 @@ export default function NightMap() {
                 </LayersControl>
                 <CoordinatesControl settings={settings} order={0} setSettings={setSettings}/>
                 <SettingsControl settings={settings} order={1} setSettings={setSettings}/>
-
-                <SidebarComponent sidebarSettings={sidebarSettings} setSidebarSettings={setSidebarSettings}/>
             </MapContainer>
+
+            <SidebarComponent sidebarSettings={sidebarSettings} setSidebarSettings={setSidebarSettings}/>
         </div>
     )
 }
