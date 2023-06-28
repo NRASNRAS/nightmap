@@ -2,35 +2,30 @@ import React, { useEffect, useState } from "react";
 import { GeoJSON, useMap } from "react-leaflet";
 import styles from './LandsLayer.module.scss';
 import { Point } from "leaflet";
-import getLands from '../../api/LandsApi';
+import { convertClaims, downloadLands } from '../../api/LandsApi';
 import L from 'leaflet';
 
 export default function LandsLayer({settings, setSidebarSettings}) {
     const [dataClaims, setDataClaims] = useState(null);
+
     const map = useMap();
 
-    useEffect(() => {
-        setDataClaims(null);
-        
+    useEffect(() => {    
         const loadClaims = () => {
-            getLands(settings.projection)
-                .then(json => {
-                    if (json) {
-                        setDataClaims(json);
-                    } else {
-                        setTimeout(loadClaims, 1000);
-                    }
+            downloadLands()
+                .then(downloadedLands => {
+                    setDataClaims(downloadedLands);
                 })
-                .catch(err => console.error('Could not load data', err))
-        }
+                .catch(err => console.error('Could not load data', err));
+        };
 
         loadClaims();
-    }, [settings.projection]);
+    }, []);
 
     return dataClaims ? (
         <GeoJSON
-            key="claims-fill"
-            data={dataClaims}
+            key={`claims-fill-${settings.projection}`}
+            data={convertClaims(dataClaims, settings.projection)}
             style={(feature) => ({
                 "color": feature.properties.color,
                 "weight": 2,

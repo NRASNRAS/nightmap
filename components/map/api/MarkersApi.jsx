@@ -1,15 +1,16 @@
 import { fixCoordsReverse, fixName } from './ApiHelper'
 
-export default async function getMarkers(projection) {
-    let data;
-    let out = {"type": "FeatureCollection","features": []}
-
+export async function downloadMarkers() {
     try {
-        data = await fetch("https://dynmap.nightrealm.net/tiles/_markers_/marker_earth.json")
+        return await fetch("https://dynmap.nightrealm.net/tiles/_markers_/marker_earth.json")
             .then(response => response.json());
     } catch (e) {
         return null;
     }
+}
+
+export function convertMarkers(data, projection) {
+    let out = {"type": "FeatureCollection","features": []};
 
     for (let markerName in data['sets']['markers']['markers']) {
         let marker = data['sets']['markers']['markers'][markerName];

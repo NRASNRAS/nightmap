@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { LayerGroup, Marker, Tooltip } from "react-leaflet";
-import { Icon, Point } from "leaflet";
+import { Icon, LatLng, Point } from "leaflet";
 import styles from './PlayersLayer.module.scss';
 import getPlayers from "../../api/PlayersApi";
+import { fixCoordsReverse } from '../../api/ApiHelper';
 
 export default function PlayersLayer({settings}) {
     const [dataMarkers, setDataMarkers] = useState([]);
     const [dataHeads, setDataHeads] = useState([]);
+
+    function latLngFromPlayerCoords(x, y, z) {
+        let latlng = fixCoordsReverse(x, z, settings.projection, y);
+        return new LatLng(latlng[0], latlng[1]);
+    }
 
     async function getHead(player) {
         const response = await fetch(`/api/tile/playerhead/${player}`);
@@ -16,7 +22,7 @@ export default function PlayersLayer({settings}) {
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            getPlayers(settings.projection)
+            getPlayers()
                 .then(json => json ? setDataMarkers(json) : null)
                 .catch(err => console.error('Could not load data', err))
         }, 1000);
@@ -62,7 +68,7 @@ export default function PlayersLayer({settings}) {
         <LayerGroup>
             {dataMarkers.map((marker) => (
                 <Marker
-                    position={[marker.latitude, marker.longitude]}
+                    position={latLngFromPlayerCoords(marker.x, marker.y, marker.z)}
                     key={marker.name}
                     icon={new Icon({
                         iconUrl: getHeadUrl(marker.name),

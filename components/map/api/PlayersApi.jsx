@@ -1,6 +1,4 @@
-import { fixCoordsReverse } from './ApiHelper';
-
-export default async function getPlayers(projection) {
+export default async function getPlayers() {
     let data;
     let out = []
 
@@ -17,13 +15,10 @@ export default async function getPlayers(projection) {
             continue;
         }
 
-        let coord = fixCoordsReverse(player.x, player.z, projection);
         out.push({
             x: player.x,
             y: player.y,
             z: player.z,
-            latitude: coord[0],
-            longitude: coord[1],
             name: player.account
         });
     }

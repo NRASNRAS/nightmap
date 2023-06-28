@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import Control from "../Control";
 import { useMap } from "react-leaflet";
 import styles from './SettingsControl.module.scss';
+import { fixCoordsReverse, latLngToCoords } from '../../api/ApiHelper';
 
 export default function SettingsControl({position, order, settings, setSettings}) {
     const map = useMap();
@@ -15,12 +16,18 @@ export default function SettingsControl({position, order, settings, setSettings}
     }
 
     const handleProjectionChange = (event) => {
+        let newProjection;
         if (settings.projection === "surface") {
-            setSettings({...settings, "projection": "flat"});
+            newProjection = "flat";
         } else {
-            setSettings({...settings, "projection": "surface"});
+            newProjection = "surface";
         }
-        map.setZoom(map.getZoom() - 0.1);
+        setSettings({...settings, "projection": newProjection});
+
+        let centerLatLng = map.getCenter();
+        let coords = latLngToCoords(centerLatLng.lat, centerLatLng.lng, settings.projection);
+        let newCenterLatLng = fixCoordsReverse(coords[0], coords[1], newProjection);
+        map.setView(newCenterLatLng, map.getZoom() - 0.01);
     }
 
     const control = useMemo(() => (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LayerGroup, Marker, Tooltip, useMap } from "react-leaflet";
 import { Icon, Point } from "leaflet";
 import styles from './MarkersLayer.module.scss';
-import getMarkers from "../../api/MarkersApi";
+import { convertMarkers, downloadMarkers } from "../../api/MarkersApi";
 
 export default function MarkersLayer({settings}) {
     const [dataMarkers, setDataMarkers] = useState(null);
@@ -31,14 +31,12 @@ export default function MarkersLayer({settings}) {
         }
     }
 
-    useEffect(() => {
-        setDataMarkers(null);
-        
+    useEffect(() => {        
         const loadMarkers = () => {
-            getMarkers(settings.projection)
+            downloadMarkers()
                 .then(json => {
                     if (json) {
-                        setDataMarkers(json.features);
+                        setDataMarkers(json);
                     } else {
                         setTimeout(loadMarkers, 1000);
                     }
@@ -47,7 +45,7 @@ export default function MarkersLayer({settings}) {
         }
 
         loadMarkers();
-    }, [settings.projection]);
+    }, []);
 
     useEffect(() => {
         map.on('zoom', () => {
@@ -61,25 +59,29 @@ export default function MarkersLayer({settings}) {
     }, [map]);
 
     return dataMarkers ? (
-        <LayerGroup>
-            {dataMarkers && dataMarkers.map((marker) => (
-                <Marker
-                    position={marker.geometry.coordinates}
-                    icon={getIcon(marker.properties.icon)}
-                    key={marker.properties.title}
-                >
-                    {showTooltips && (
-                        <Tooltip interactive={true}
-                            className={styles.tooltip}
-                            permanent={true}
-                            direction="right"
-                            offset={new Point(4, null)}
-                        >
-                            {marker.properties.title}
-                        </Tooltip>
-                    )}
-                </Marker>
-            ))}
+        <LayerGroup
+            key={`markers-${settings.projection}`}
+        >
+            {convertMarkers(dataMarkers, settings.projection)
+                .features.map((marker) => (
+                    <Marker
+                        position={marker.geometry.coordinates}
+                        icon={getIcon(marker.properties.icon)}
+                        key={marker.properties.title}
+                    >
+                        {showTooltips && (
+                            <Tooltip interactive={true}
+                                className={styles.tooltip}
+                                permanent={true}
+                                direction="right"
+                                offset={new Point(4, null)}
+                            >
+                                {marker.properties.title}
+                            </Tooltip>
+                        )}
+                    </Marker>
+                ))
+            }
         </LayerGroup>
     ) : <></>
 }

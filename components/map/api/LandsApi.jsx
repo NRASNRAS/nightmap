@@ -1,15 +1,16 @@
 import { fixCoords, fixName, extractName } from './ApiHelper';
 
-export default async function getLands(projection) {
-    let data;
-    let out = {"type": "FeatureCollection","features": []}
-
+export async function downloadLands() {
     try {
-        data = await fetch("https://dynmap.nightrealm.net/tiles/_markers_/marker_earth.json")
+        return await fetch("https://dynmap.nightrealm.net/tiles/_markers_/marker_earth.json")
             .then(response => response.json());
     } catch (e) {
         return null;
     }
+}
+
+export function convertClaims(data, projection) {
+    let out = {"type": "FeatureCollection","features": []}
 
     for (let areaName in data['sets']['me.angeschossen.lands']['areas']) {
         let coords = [];
