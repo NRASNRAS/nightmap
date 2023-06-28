@@ -3,13 +3,13 @@
     color: var(--palette-text);
     border: none;
     padding: 0 4px;
+    z-index: 10 !important;
 
     &:before {
         all: unset;
     }
 }
 
-.pixelImg {
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
+.icon {
+    z-index: 10 !important;
 }

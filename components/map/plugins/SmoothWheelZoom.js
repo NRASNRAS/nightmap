@@ -1,6 +1,7 @@
 /*
-This plugin is from https://github.com/BudgieInWA/Leaflet.SmoothWheelZoom
-and is licensed under the MIT license:
+This is a modified version of the plugin from
+https://github.com/BudgieInWA/Leaflet.SmoothWheelZoom
+and it is licensed under the MIT license:
 
 MIT License
 
@@ -41,10 +42,18 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
 
     addHooks: function () {
         L.DomEvent.on(this._map._container, 'wheel', this._onWheelScroll, this);
+
+        L.DomEvent.on(this._map._container, 'mousedown', this._onMouseDown, this);
+        L.DomEvent.on(this._map._container, 'mouseup', this._onMouseUp, this);
+        L.DomEvent.on(this._map._container, 'mousemove', this._onMouseMove, this);
     },
 
     removeHooks: function () {
         L.DomEvent.off(this._map._container, 'wheel', this._onWheelScroll, this);
+        
+        L.DomEvent.off(this._map._container, 'mousedown', this._onMouseDown, this);
+        L.DomEvent.off(this._map._container, 'mouseup', this._onMouseUp, this);
+        L.DomEvent.off(this._map._container, 'mousemove', this._onMouseMove, this);
     },
 
     _onWheelScroll: function (e) {
@@ -127,8 +136,25 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
         this._prevZoom = map.getZoom();
 
         this._zoomAnimationId = requestAnimationFrame(this._updateWheelZoom.bind(this));
-    }
+    },
 
+    _onMouseDrag: function (e) {
+        this._onWheelEnd(e);
+    },
+
+    _onMouseDown: function(e) {
+        this._mouseDown = true;
+    },
+
+    _onMouseUp: function(e) {
+        this._mouseDown = false;
+    },
+
+    _onMouseMove: function(e) {
+        if (this._mouseDown) {
+            this._onMouseDrag(e);
+        }
+    }
 });
 
 L.Map.addInitHook('addHandler', 'smoothWheelZoom', L.Map.SmoothWheelZoom );

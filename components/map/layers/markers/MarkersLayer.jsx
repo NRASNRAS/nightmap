@@ -13,14 +13,14 @@ export default function MarkersLayer({settings}) {
         iconUrl: '/leaflet/marker_pin.png',
         iconSize: [16, 16],
         iconAnchor: [8, 8],
-        className: styles.pixelImg
+        className: styles.icon
     });
 
     const iconStar = new Icon({
         iconUrl: '/leaflet/marker_star.png',
         iconSize: [16, 16],
         iconAnchor: [8, 8],
-        className: styles.pixelImg
+        className: styles.icon
     });
 
     function getIcon(name) {

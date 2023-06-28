@@ -8,11 +8,15 @@
         all: unset;
     }
 
-    z-index: 1 !important;
+    z-index: 11;
+
+    transition: transform .3s linear;
 }
 
 .pixelImg {
     image-rendering: crisp-edges;
     image-rendering: pixelated;
-    z-index: 1 !important;
+    z-index: 11 !important;
+
+    transition: transform .3s linear;
 }
